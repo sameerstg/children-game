@@ -4,10 +4,10 @@ using UnityEngine.UI;
 
 public class WhatToSayText : MonoBehaviour
 {
-    Text text;
+    TextMeshProUGUI text;
     private void Awake()
     {
-        text = GetComponent<Text>();
+        text = GetComponent<TextMeshProUGUI>();
     }
     private void Start()
     {

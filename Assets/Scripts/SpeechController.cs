@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class SpeechController : MonoBehaviour
@@ -26,12 +27,26 @@ public class SpeechController : MonoBehaviour
     public void SpeechSaid(string said)
     {
         Debug.LogError(said);
-        if (said != speechesToSay[speechesSaid.Count]) return;
+        string normalizeText = NormalizeSentence(said);
+
+        if (normalizeText.ToLower() != speechesToSay[speechesSaid.Count].ToLower()) return;
         onSpeechSaid?.Invoke(speechesToSay[speechesSaid.Count]);
 
         speechesSaid.Add(speechesToSay[speechesSaid.Count]);
 
         if (speechesSaid.Count == speechesToSay.Count) return;
         GetSpeechToSay();
+    }
+    char[] forbiddenChars = new char[] { '.', '!', ',' };
+    string NormalizeSentence(string sentence)
+    {
+        var normalizeText = sentence;
+
+        foreach (char forbiddenChar in forbiddenChars)
+        {
+            normalizeText = normalizeText.Replace(forbiddenChar.ToString(), "");
+        }
+
+        return normalizeText;
     }
 }
